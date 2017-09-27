@@ -1,25 +1,30 @@
+from Saver import saves
 N_PHI = 60
+N_save = N_PHI
 fc = 2
 wd = 1080/fc
 ht = wd
 
-maxRot = PI/16
-nS = 300.      # noise factor in space
+maxRot = PI/8
+dRot = PI/16
+nS = 450.      # noise factor in space
 
 def settings():
     size(wd,ht)
 
 def setup():
-    global rSys
+    global rSys,saver
     background(0)
+    saver = saves(N_PHI, N_save)
     blendMode(SUBTRACT)
     strokeWeight(2)
-    noiseSeed(1333)
-    rSys = rombSys(PVector(0,0),PVector(wd,ht),20,6)
+    noiseSeed(13323)
+    rSys = rombSys(PVector(0,0),PVector(wd,ht),10,15)
 
 def draw():
     background(255)
     rSys.show()
+    saver.save_frame()
 
 ###
 class rombus():
@@ -90,3 +95,7 @@ class rombSys():
     def show(self):
         for i in xrange(len(self.rombs)):
             self.rombs[i].update()
+
+####
+def mouseClicked():
+    saver.onClick()
